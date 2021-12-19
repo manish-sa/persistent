@@ -55,3 +55,8 @@ $routes->group("api", function ($routes) {
     $routes->get('all_user_list', 'Profile::index', ['filter' => 'routeFilter']);
     $routes->get('profile', 'Profile::index', ['filter' => 'routeFilter']);
 });
+
+$routes->post("add_update", "Crud::add_update");
+$routes->get("edit/(:num)", "Crud::edit/$1");
+$routes->delete("delete/(:num)", "Crud::delete/$1");
+$routes->post("ajax-load-data", "Crud::show");

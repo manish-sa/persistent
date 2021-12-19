@@ -19,7 +19,7 @@ class DiskSpace extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'disk-space';
+    protected $name = 'command:diskspace';
 
     /**
      * The Command's Description

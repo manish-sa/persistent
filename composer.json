@@ -13,7 +13,8 @@
         "kint-php/kint": "^3.3",
         "laminas/laminas-escaper": "^2.9",
         "psr/log": "^1.1",
-        "firebase/php-jwt": "^5.5"
+        "firebase/php-jwt": "^5.5",
+        "zircote/swagger-php": "^4.0"
     },
     "require-dev": {
         "codeigniter/coding-standard": "^1.1",

@@ -20,7 +20,7 @@ class SSHToConnect extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'ssh-to-connect:command';
+    protected $name = 'command:sshtoconnect';
 
     /**
      * The Command's Description

@@ -4,6 +4,7 @@ namespace App\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
+use Exception;
 
 class ListDirectoryFile extends BaseCommand
 {
@@ -19,7 +20,7 @@ class ListDirectoryFile extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'list-file-inside:command';
+    protected $name = 'command:listdirectoryfile';
 
     /**
      * The Command's Description

@@ -6,6 +6,7 @@ use CodeIgniter\RESTful\ResourceController;
 use App\Models\UserModel;
 use Exception;
 use \Firebase\JWT\JWT;
+use Swagger\Annotations as SWG;
 
 class Login extends ResourceController
 {

@@ -19,7 +19,7 @@ class Inode extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'inode:command';
+    protected $name = 'command:inode';
 
     /**
      * The Command's Description

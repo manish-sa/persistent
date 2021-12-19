@@ -5,7 +5,7 @@ namespace App\Commands;
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
 
-class UniqueNumber extends BaseCommand
+class TelnetToServer extends BaseCommand
 {
     /**
      * The Command's Group
@@ -19,7 +19,7 @@ class UniqueNumber extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'command:uniquenumber';
+    protected $name = 'command:telnettoserver';
 
     /**
      * The Command's Description
@@ -56,12 +56,11 @@ class UniqueNumber extends BaseCommand
      */
     public function run(array $params)
     {
-        $number = CLI::prompt('Please enter a number', null, 'required');
-        $min = 0;
-        $max = $number;
-        $numbers = range(0, $number);
-        shuffle($numbers);
-        $unique = array_slice($numbers, 0, $number);
-        CLI::write($unique);
+        $socket = fsockopen("127.0.0.1", "80", $errno, $errstr); 
+        if($socket) { 
+            CLI::write('Telnet socket connected');
+        } else { 
+            CLI::write('Telnet socket connection failed');
+        }
     }
 }
