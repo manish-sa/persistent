@@ -17,5 +17,11 @@ class UserSeeder extends Seeder
                 'password' => password_hash($faker->password, PASSWORD_DEFAULT),
             ]
         );
+        $user->save(
+            [
+                'username' => 'admin',
+                'password' => password_hash('admin', PASSWORD_DEFAULT),
+            ]
+        );
     }
 }

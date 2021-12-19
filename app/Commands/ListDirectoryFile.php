@@ -63,7 +63,7 @@ class ListDirectoryFile extends BaseCommand
             CLI::write('list of files and folders:');
             foreach ($files as $key => $file) {
                 if(is_dir($dir_path."/".$file)){
-                    CLI::write('folder: '. $file);
+                    CLI::write('directory: '. $file);
                 }else{
                     CLI::write('file: '. $file);
                 }

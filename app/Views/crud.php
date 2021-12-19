@@ -71,9 +71,7 @@
 <script type="text/javascript">
     var base_url = "<?= base_url()?>";
     $(document).ready(function(){
-        // $('#list').DataTable();
-        load_data();
-        
+        load_data();        
         function load_data()
         {
             $('#list').DataTable({
@@ -87,7 +85,7 @@
                 "ordering": true,
                 "order"     : [],
                 ajax: {
-                    url: base_url + "/ajax-load-data",
+                    url: base_url + "/routers",
                     type: "post",
                 },
                 columns: [
@@ -116,26 +114,45 @@
         });
         $("#insert-record").submit(async function( e ) {
             e.preventDefault();
-            $.ajax({
-                url:base_url+"/add_update",
-                type: "POST",
-                dataType: 'json',
-                data: $("#insert-record").serialize(),
-                success: function(res) {
-                    if(res.success){
-                        toastr.success('Success!!');
-                        load_data();
-                        $('#create').modal('toggle');
-                    }else{
-                        toastr.error('Something want wrong');
+            var id = $("#id").val();
+            if(id != ''){
+                $.ajax({
+                    url:base_url+"/router/"+id,
+                    type: "PUT",
+                    dataType: 'json',
+                    data: $("#insert-record").serialize(),
+                    success: function(res) {
+                        if(res.success){
+                            toastr.success('Success!!');
+                            load_data();
+                            $('#create').modal('toggle');
+                        }else{
+                            toastr.error('Something want wrong');
+                        }
                     }
-                }
-            });
+                }); 
+            }else{
+                $.ajax({
+                    url:base_url+"/router",
+                    type: "POST",
+                    dataType: 'json',
+                    data: $("#insert-record").serialize(),
+                    success: function(res) {
+                        if(res.success){
+                            toastr.success('Success!!');
+                            load_data();
+                            $('#create').modal('toggle');
+                        }else{
+                            toastr.error('Something want wrong');
+                        }
+                    }
+                });                
+            }
         });
         $(document).on('click', ".delete", function(){
             var id = $(this).data('id');
             $.ajax({
-                url:base_url+"/delete/"+id,
+                url:base_url+"/router/"+id,
                 type: "DELETE",
                 dataType: 'json',
                 success: function(res) {
@@ -151,7 +168,7 @@
         $(document).on('click', ".edit", function(){
             var id = $(this).data('id');
             $.ajax({
-                url:base_url+"/edit/"+id,
+                url:base_url+"/router/"+id,
                 type: "GET",
                 dataType: 'json',
                 success: function(res) {

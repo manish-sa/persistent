@@ -58,7 +58,7 @@ class Inode extends BaseCommand
     {
         $file_path = CLI::prompt('Please enter a file path', null, 'required');
         if(file_exists($file_path)){
-            CLI::write('Your file Inode is :'. fileinode("/var/www/"));
+            CLI::write('Your file Inode is :'. fileinode($file_path));
         }else{
             CLI::write('File not exist');
         }

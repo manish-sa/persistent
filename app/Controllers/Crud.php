@@ -23,7 +23,7 @@ class Crud extends BaseController
      *
      * @return mixed
      */
-    public function show()
+    public function lists()
     {
         $router = new RouterDataModel();
         $router->where('deleted_at is NULL');
@@ -41,7 +41,7 @@ class Crud extends BaseController
      *
      * @return mixed
      */
-    public function add_update()
+    public function create()
     {
         $router = new RouterDataModel();
         try{
@@ -52,13 +52,41 @@ class Crud extends BaseController
                 'loopback' => $this->request->getPost('loopback'),
                 'mac'    => $this->request->getPost('mac'),
             ];
-            if(empty($this->request->getPost('id'))){
-                $router->insert($data);
-                $id = $router->getInsertID();
-            }else{
-                $id = $this->request->getPost('id');
-                $router->update($id, $data);
-            }
+            $router->insert($data);
+            $id = $router->getInsertID();
+            $data = [
+                'success' => true,
+                'id' => $id
+            ];
+            $router->transComplete();
+        } catch (Exception $ex) {
+            $router->transRollback();
+            $data = [
+                'success' => false,
+                'msg' => $ex->getMessage()
+            ];
+        }
+        return $this->response->setJSON($data);
+    }
+
+    /**
+     * Return a new resource object, with default properties
+     *
+     * @return mixed
+     */
+    public function update($id = null)
+    {
+        $router = new RouterDataModel();
+        try{
+            $router->transStart();
+            $request = $this->request->getRawInput();
+            $data = [
+                'spid' => $request['spid'],
+                'hostname' => $request['hostname'],
+                'loopback' => $request['loopback'],
+                'mac'    => $request['mac'],
+            ];
+            $router->update($id, $data);
             $data = [
                 'success' => true,
                 'id' => $id
@@ -79,7 +107,7 @@ class Crud extends BaseController
      *
      * @return mixed
      */
-    public function edit($id = null)
+    public function show($id = null)
     {
         $router = new RouterDataModel();
         $router->select('loopback, hostname, mac, id, spid');

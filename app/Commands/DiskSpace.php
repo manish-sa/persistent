@@ -56,7 +56,11 @@ class DiskSpace extends BaseCommand
      */
     public function run(array $params)
     {
+        $total = round(disk_total_space("/") / 1024 / 1024 / 1024);
+        $usage = round((disk_total_space("/")-disk_free_space("/")) / 1024 / 1024 / 1024);
         $df = round(disk_free_space("/") / 1024 / 1024 / 1024);
+        CLI::write("Total Space: $total GB");
+        CLI::write("Usage Space: $usage GB");
         CLI::write("Free Space: $df GB");
     }
 }

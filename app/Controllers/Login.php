@@ -46,7 +46,6 @@ class Login extends ResourceController
 
             if (!empty($userdata)) {
                 if (password_verify($this->request->getVar("password"), $userdata['password'])) {
-
                     $iat = time(); // current timestamp value
                     $nbf = $iat + 10;
                     $exp = $iat + 3600;
@@ -75,7 +74,6 @@ class Login extends ResourceController
                     ];
                     return $this->respondCreated($response);
                 } else {
-
                     $response = [
                         'status' => 500,
                         'error' => true,

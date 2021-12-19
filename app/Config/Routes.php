@@ -52,11 +52,12 @@ if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
 
 $routes->group("api", function ($routes) {
     $routes->post("login", "Login::index");
-    $routes->get('all_user_list', 'Profile::index', ['filter' => 'routeFilter']);
-    $routes->get('profile', 'Profile::index', ['filter' => 'routeFilter']);
+    // $routes->get('all_user_list', 'Profile::index', ['filter' => 'routeFilter']);
+    // $routes->get('profile', 'Profile::index', ['filter' => 'routeFilter']);
 });
 
-$routes->post("add_update", "Crud::add_update");
-$routes->get("edit/(:num)", "Crud::edit/$1");
-$routes->delete("delete/(:num)", "Crud::delete/$1");
-$routes->post("ajax-load-data", "Crud::show");
+$routes->post("router", "Crud::create");
+$routes->put("router/(:num)", "Crud::update/$1");
+$routes->get("router/(:num)", "Crud::show/$1");
+$routes->delete("router/(:num)", "Crud::delete/$1");
+$routes->post("routers", "Crud::lists");
