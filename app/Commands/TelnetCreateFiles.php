@@ -68,7 +68,10 @@ class TelnetCreateFiles extends BaseCommand
                 $output .= fgets($fp, 128);
             }
             fclose($fp);
-            file_put_contents( 'output.txt', $output );
+            
+            $config = new \Config\Paths();
+            $path = $config->writableDirectory ."/uploads/";
+            file_put_contents( $path.'output.txt', $output );
         } else { 
             CLI::write('Telnet socket connection failed');
         }

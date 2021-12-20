@@ -52,8 +52,11 @@ if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
 
 $routes->group("api", function ($routes) {
     $routes->post("login", "Login::index");
-    // $routes->get('all_user_list', 'Profile::index', ['filter' => 'routeFilter']);
-    // $routes->get('profile', 'Profile::index', ['filter' => 'routeFilter']);
+    $routes->post('create', 'RouterRest::create', ['filter' => 'routeFilter']);
+    $routes->put('update/(:any)', 'RouterRest::update/$1', ['filter' => 'routeFilter']);
+    $routes->post("lists", "RouterRest::index");
+    $routes->post("list/iprange", "RouterRest::iprange");
+    $routes->delete("delete/(:num)", "RouterRest::delete/$1");
 });
 
 $routes->post("router", "Crud::create");

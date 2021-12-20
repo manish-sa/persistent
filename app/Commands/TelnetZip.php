@@ -61,33 +61,36 @@ class TelnetZip extends BaseCommand
         $username = 'manish';
         $password = 'manish';
         $port = '22';
-        $local_file = '/var/www/final.log';
-        $local_path = "/var/www";
-        $number = 2;
         try{
             $connection = ssh2_connect($host, $port);
             ssh2_auth_password($connection, $username, $password);
             $sftp = ssh2_sftp($connection);
 
-
             $config = new \Config\Paths();
             $path = $config->writableDirectory ."/uploads/";
-            print_r(ssh2_exec($connection, "zip -r filename.zip $path"));
-            die;
 
             CLI::write("Creating file on server");
+            $file_name = array();
+            $file_arr = array();
             for ($i=0; $i < $number; $i++) { 
-                $server_file = "file_".$i."_".basename($local_file);
-                $server_file = "ssh2.sftp://{$connection}/{$path}".$server_file;
-                $resFile = fopen($server_file, 'w');
-                $srcFile = fopen($local_file, 'r');
-                $writtenBytes = stream_copy_to_stream($srcFile, $resFile);
-                fclose($resFile);
-                fclose($srcFile);
+                $server_file = "file_".$i.".log";
+                $file_arr[] = $server_file;
+                ssh2_exec($connection, "cd {$path} && touch {$server_file}");
             }
+            
+            // zip -r filename.zip folder name
+            CLI::write("convert files into zip");
+            $zipfile = "file.zip";
+            $file_arr = implode(" ", $file_arr);
+            ssh2_exec($connection, "cd {$path} && zip -r {$zipfile} {$file_arr}");
 
-            // zip -r filename.zip foldername/
-            CLI::write("Download zip file on local path");
+
+            $local_path = $config->writableDirectory."/{$zipfile}";
+            CLI::write("download zip file");
+            ssh2_scp_recv($connection, $path.$zipfile, $local_path);
+
+            CLI::write("extracting zip file");
+            system("unzip $local_path -d {$config->writableDirectory}");
         } catch (Exception $ex) {
             CLI::write("Error : ".$ex->getMessage());
         }
